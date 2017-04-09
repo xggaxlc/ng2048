@@ -1,3 +1,18 @@
-<h1>
-  {{title}}
-</h1>
+<div class="container">
+  <div class="header">
+    <div class="score-box">
+      <div class="score">
+        <p>分数</p>
+        <em>0</em>
+      </div>
+      <div class="high-score">
+        <p>最高分数</p>
+        <em>0</em>
+      </div>
+    </div>
+    <!--<div class="btn-setting">设置</div>-->
+  </div>
+  <div class="game" appBoxSquare>
+    <div class="cell" appBoxSquare *ngFor="let box of board" [ngStyle]="{'backgroundColor': color[box]}">{{box ? box : ''}}</div>
+  </div>
+</div>
