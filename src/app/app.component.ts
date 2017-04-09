@@ -9,6 +9,8 @@ export class AppComponent implements OnInit{
 
   board: Array<Number> = new Array(16).fill(0);
 
+  score: number = 0;
+
   color: {} = {
     0: '#cec6bd',
     2: '#eee4da',
@@ -144,6 +146,8 @@ export class AppComponent implements OnInit{
             arrFill[i + 1] = num * 2;
             arrFill[i] = 0;
           }
+          // 计算分数
+          this.score += num * 2;
           // 跳过下个index循环
           i++;
         }
