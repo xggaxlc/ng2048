@@ -318,8 +318,8 @@ export class AppComponent implements OnInit{
     });
   }
 
-  handleGameOver(isGrmeOver): Promise<any> {
-    if (isGrmeOver) {
+  handleGameOver(isGameOver): Promise<any> {
+    if (isGameOver) {
       // 清除进度
       this.storage.removeItem('saveGame');
       setTimeout(() => {
