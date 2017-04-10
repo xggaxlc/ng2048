@@ -12,7 +12,13 @@
     </div>
     <!--<div class="btn-setting">设置</div>-->
   </div>
+  <!-- pulse, bounceIn -->
   <div class="game" appBoxSquare #gameBoard>
-    <div class="cell" appBoxSquare *ngFor="let box of board" [ngStyle]="{'backgroundColor': color[box].bg, 'color': box >= 8 ? '#fff' : ''}">{{box ? box : ''}}</div>
+    <div class="cell animated" 
+      appBoxSquare *ngFor="let box of board" 
+      [ngStyle]="{'backgroundColor': color[box].bg, 'color': box >= 8 ? '#fff' : ''}"
+      [ngClass]="{'bounceIn': box > 0}">
+      {{box ? box : ''}}
+    </div>
   </div>
 </div>
