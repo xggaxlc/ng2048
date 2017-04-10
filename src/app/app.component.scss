@@ -7,9 +7,7 @@
 }
 .header{
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  flex-direction: column;
 }
 .score-box{
   display: flex;
@@ -24,16 +22,26 @@
   padding: 6px 0;
   margin-right: 16px;
   color: #ffebd6;
+  border-radius: 4px;
   em{
     font-style: normal;
     color: #fff;
   }
 }
-.btn-setting{
-  background-color: #ef8163;
-  color: #fff;
-  padding: 10px;
-  line-height: 1;
+.btns{
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  .btn{
+    width: 90px;
+    background-color: #ef8163;
+    color: #fff;
+    text-align: center;
+    line-height: 40px;
+    margin-right: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
 }
 .game{
   box-sizing: border-box;
@@ -43,6 +51,7 @@
   display: flex;
   flex-wrap: wrap;
   margin-bottom: -5%;
+  border-radius: 4px;
   .cell{
     width:21.25%;
     margin-right: 5%;
@@ -53,6 +62,7 @@
     font-size: 20px;
     font-weight: bold;
     color: #636163;
+    border-radius: 4px;
     &:nth-of-type(4n){
       margin-right: 0 !important;
     }

@@ -1,3 +1,5 @@
+import { LocalStorageService } from './services/storage.service';
+import { AlertService } from './services/alert.service';
 import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
 import * as Hammer from 'hammerjs';
 
@@ -10,7 +12,8 @@ export class AppComponent implements OnInit{
 
   board: Array<Number>;
 
-  score: number;
+  score: number = 0;
+  hightScore: number = this.storage.getItem('hightScore') || 0;
 
   color: {} = {
     0: {
@@ -83,6 +86,11 @@ export class AppComponent implements OnInit{
     }
   }
 
+  constructor(
+    private alert: AlertService,
+    private storage: LocalStorageService
+  ) {}
+
   ngOnInit() {
     this.initMobileEvent();
     this.progress = true;
@@ -90,13 +98,44 @@ export class AppComponent implements OnInit{
       .then(() => this.progress = false);
   }
 
-  init() {
+  init(): Promise<any> {
+    let savedGame = this.storage.getItem('saveGame');
+    if (savedGame) {
+      return this.alert.confirm('恢复游戏', '发现本地有保存的游戏进度，是否使用此进度继续游戏？', '继续游戏', '重新开始')
+        .then(() => {
+          this.board = savedGame.board;
+          this.score = savedGame.score;
+        })
+        .catch(() => {
+          this.storage.removeItem('saveGame');
+          return this.newGame();
+        });
+    } else {
+      return this.newGame();
+    }
+  }
+
+  newGame(): Promise<any> {
     this.score = 0;
     this.board = new Array(16).fill(0);
-    return Promise.all([
-      this.createNewNumber(),
-      this.createNewNumber()
-    ]);
+    return this.createNewNumber()
+      .then(this.createNewNumber.bind(this))
+      .then(this.createNewNumber.bind(this));
+  }
+
+  saveGame(): void {
+    this.storage.setItem('saveGame', {
+      board: this.board,
+      score: this.score
+    });
+    this.alert.success('保存游戏', '保存游戏进度成功!');
+  }
+
+  saveHightScore(): void {
+    if (this.score > this.hightScore) {
+      this.hightScore = this.score;
+      this.storage.setItem('hightScore', this.hightScore);
+    }
   }
 
   initMobileEvent() {
@@ -216,6 +255,7 @@ export class AppComponent implements OnInit{
             }
             // 计算分数
             this.score += num * 2;
+            this.saveHightScore();
             // 跳过下个index循环
             i++;
           }
@@ -280,12 +320,16 @@ export class AppComponent implements OnInit{
 
   handleGameOver(isGrmeOver): Promise<any> {
     if (isGrmeOver) {
+      // 清除进度
+      this.storage.removeItem('saveGame');
       setTimeout(() => {
-        alert('游戏结束');
-        return this.init();
+        return this.alert.confirm('游戏结束', '重新开始游戏？', '重新开始', '关闭')
+          .then(this.newGame.bind(this))
+          // 选择了关闭
+          .catch(() => {});
       });
     } else {
-      return Promise.resolve(this.board);
+      return Promise.resolve();
     }
   }
 

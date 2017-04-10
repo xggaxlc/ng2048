@@ -20,6 +20,8 @@
       "prefix": "app",
       "styles": [
         "../node_modules/animate.css/animate.css",
+        "../node_modules/sweetalert/dist/sweetalert.css",
+        "../node_modules/sweetalert/themes/google/google.css",
         "styles.scss"
       ],
       "scripts": [],
