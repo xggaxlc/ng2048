@@ -13,7 +13,7 @@ export class AppComponent implements OnInit{
   board: Array<Number>;
 
   score: number = 0;
-  hightScore: number = this.storage.getItem('hightScore') || 0;
+  highScore: number = this.storage.getItem('highScore') || 0;
 
   color: {} = {
     0: {
@@ -131,10 +131,10 @@ export class AppComponent implements OnInit{
     this.alert.success('保存游戏', '保存游戏进度成功!');
   }
 
-  saveHightScore(): void {
-    if (this.score > this.hightScore) {
-      this.hightScore = this.score;
-      this.storage.setItem('hightScore', this.hightScore);
+  saveHighScore(): void {
+    if (this.score > this.highScore) {
+      this.highScore = this.score;
+      this.storage.setItem('highScore', this.highScore);
     }
   }
 
@@ -255,7 +255,7 @@ export class AppComponent implements OnInit{
             }
             // 计算分数
             this.score += num * 2;
-            this.saveHightScore();
+            this.saveHighScore();
             // 跳过下个index循环
             i++;
           }
